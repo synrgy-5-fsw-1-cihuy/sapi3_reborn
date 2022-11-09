@@ -1,10 +1,13 @@
 const express = require('express');
+const formidableMiddleware = require('formidable');
+
 const authToken = require('./middleware/auth_token');
+const cloudinaryConfig = require('./config/cloudinary');
+
 const PORT = 8001 || process.env.PORT;
 const app = express();
-
 // Parser 
-app.use(express.json());
+// app.use(express.json());
 
 // Set view engine EJS
 app.set('view engine', 'ejs');
@@ -18,7 +21,7 @@ app.get('/', (request, response) => {
     // response.json({message: 'Index page'});
     response.render('index', {
         name: request.query.name
-    })
+    });
 });
 
 app.get('/api/users', authToken, (request, response) => {
@@ -45,6 +48,36 @@ app.put('/api/users/:id', (request, response) => {
 
 app.delete('/api/users/:id', (request, response) => {
     response.json({message: "Create user"});
+});
+
+app.post('/upload', (request, response) => {
+    const form = formidableMiddleware({ multiples: false });
+    let uploadedFiles = '';
+
+    form.parse(request, (err, fields, files) => {
+        if (err) {
+            next(err);
+            return;
+        }
+
+        console.log(fields.name);
+        console.log(files.files.filepath);
+        
+        
+        cloudinaryConfig.uploader.upload(files.files.filepath, function(err, result) {
+            uploadedFiles = result.secure_url;
+            console.log(result);
+            response.json({message: "uploaded success", body: result.secure_url});
+        }).catch(err => {
+            console.error(err);
+        });
+
+    });
+
+    // response.json({
+    //     message: "File uploaded successfully",
+    //     uploaded_file: request.files
+    // })
 });
 
 
