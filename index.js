@@ -51,7 +51,7 @@ app.delete('/api/users/:id', (request, response) => {
 });
 
 app.post('/upload', (request, response) => {
-    const form = formidableMiddleware({ multiples: false });
+    const form = formidableMiddleware({ });
     let uploadedFiles = '';
 
     form.parse(request, (err, fields, files) => {
@@ -60,17 +60,21 @@ app.post('/upload', (request, response) => {
             return;
         }
 
-        console.log(fields.name);
+        
         console.log(files.files.filepath);
+        console.log(fields.name);
         
         
         cloudinaryConfig.uploader.upload(files.files.filepath, function(err, result) {
+            if (err) {
+                next(err);
+                return;
+            }
+
             uploadedFiles = result.secure_url;
             console.log(result);
             response.json({message: "uploaded success", body: result.secure_url});
-        }).catch(err => {
-            console.error(err);
-        });
+        })
 
     });
 
