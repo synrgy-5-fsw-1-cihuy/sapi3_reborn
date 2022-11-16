@@ -3,6 +3,7 @@ const formidableMiddleware = require('formidable');
 
 const authToken = require('./middleware/auth_token');
 const cloudinaryConfig = require('./config/cloudinary');
+const postRouter = require('./router/post.router.js');
 
 const PORT = 8001 || process.env.PORT;
 const app = express();
@@ -11,6 +12,7 @@ const app = express();
 
 // Set view engine EJS
 app.set('view engine', 'ejs');
+app.use(postRouter);
 
 const users = [
     {name: "Roni", city: "Jakarta"},
@@ -90,9 +92,6 @@ app.listen(PORT, () => {
 });
 
 
-// Study case
-// Custom middleware
-// Role Admin => GET POST PUT DELETE
-// Role User => GET
-// Header name => mRole
-// Sampe jam 9.55 WIB
+// Study case TS
+// Konversi routing dari javascript biasa menjadi TS
+// Pisahkan routingnya
