@@ -4,6 +4,7 @@ const formidableMiddleware = require('formidable');
 const authToken = require('./middleware/auth_token');
 const cloudinaryConfig = require('./config/cloudinary');
 const postRouter = require('./router/post.router.js');
+const carRouter = require('./router/car.router.js');
 
 const PORT = 8001 || process.env.PORT;
 const app = express();
@@ -12,7 +13,10 @@ const app = express();
 
 // Set view engine EJS
 app.set('view engine', 'ejs');
+
+// Routing include
 app.use(postRouter);
+app.use(carRouter);
 
 const users = [
     {name: "Roni", city: "Jakarta"},

@@ -35,7 +35,4 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-// Load model in model/index.js
-db.post = require("./post.js")(sequelize, Sequelize);
-
 module.exports = db;
