@@ -5,4 +5,8 @@ const findAllCar = async () => {
     return await Car.findAll();
 };
 
-module.exports = {findAllCar};
+const findCarById = async (id) => {
+    return await Car.findByPk(id);
+};
+
+module.exports = {findAllCar, findCarById};

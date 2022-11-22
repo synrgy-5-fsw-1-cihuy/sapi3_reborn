@@ -12,15 +12,15 @@ const getAllCarHandler = async (request, response) => {
 };
 
 // Car By ID Handler
-const getCarByIdHandler = (request, response) => {
-    Car.findByPk(request.params.id).then(result => {
-        if(result == null) {
-            response.status(404).json({message: "Car not found"});
-            return;
-        }
+const getCarByIdHandler = async (request, response) => {
+    const carById = await carService.doGetCarById(request.params.id, response);
 
-        response.status(200).json({data: result});
-    });
+    if (carById == null) {
+        response.status(404).json({message: `Car not found with ids ${request.params.id}`});
+        return;
+    };
+
+    response.status(200).json({data: carById});
 };
 
 // Create Car Handler
