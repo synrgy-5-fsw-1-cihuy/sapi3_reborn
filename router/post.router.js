@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const formidableMiddleware = require('formidable');
-const { where } = require('sequelize');
-const model = require('../models/index.js');
-const Post = model.post;
+const authMiddlware = require('../middleware/auth_token.js');
+const models = require('../models');
+const Post = models.Post;
+
+router.use(authMiddlware);
+
 
 // All
 router.get('/api/posts', (request, response) => {
