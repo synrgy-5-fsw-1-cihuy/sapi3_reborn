@@ -99,12 +99,18 @@ router.get("/api/posts/:id", (request, response) => {
  *      post:
  *        summary: Create a new post (file)
  *        tags: [Posts]
- *        parameters:
- *          - in: path
- *            name: id
+ *        requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                    type: object
+ *                    properties:
+ *                      username:
+ *                          type: string
  *        responses:
- *          "200":
- *            description: Retrieve posts by id
+ *          "201":
+ *            description: Created
  *            content:
  *              application/json:
  *                schema:
@@ -194,24 +200,24 @@ router.delete("/api/posts/:id", (request, response) => {
     .then((result) => {
       if (result == null) {
         response.status(404).json({
-          message : "data not found",
-          data: null
+          message: "data not found",
+          data: null,
         });
         return;
       }
 
       Post.destroy({ where: { id: request.params.id } }).then((result) => {
         response.status(204).json({
-          message : "success delete data",
-          data: result
+          message: "success delete data",
+          data: result,
         });
       });
     })
     .catch((err) => {
       console.error(err);
       response.status(500).json({
-        message : "server error",
-        data: null
+        message: "server error",
+        data: null,
       });
     });
 });
