@@ -163,22 +163,56 @@ router.put("/api/posts/:id", (request, response) => {
   });
 });
 
+/**
+ * @swagger
+ *  /posts/{id}:
+ *    delete:
+ *      summary: Delete Data by Id
+ *      tags: [Posts]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          description: id data
+ *          required: true
+ *          schema:
+ *            type: integer
+ *      responses:
+ *        204:
+ *          description: success delete data
+ *        404:
+ *          description: data not found
+ *        500:
+ *          description: server error
+ *
+ */
+
 // Delete
 router.delete("/api/posts/:id", (request, response) => {
+  console.log(request.params.id);
+  console.log("tes");
   Post.findByPk(request.params.id)
     .then((result) => {
       if (result == null) {
-        response.status(404).json({ data: {} });
+        response.status(404).json({
+          message : "data not found",
+          data: null
+        });
         return;
       }
 
       Post.destroy({ where: { id: request.params.id } }).then((result) => {
-        response.status(204).json({ data: {} });
+        response.status(204).json({
+          message : "success delete data",
+          data: result
+        });
       });
     })
     .catch((err) => {
       console.error(err);
-      throw err;
+      response.status(500).json({
+        message : "server error",
+        data: null
+      });
     });
 });
 
