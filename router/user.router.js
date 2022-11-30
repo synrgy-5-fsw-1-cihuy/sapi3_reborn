@@ -9,7 +9,6 @@ const userController = require("../controller/user.controller.js");
  *     User:
  *      type: object
  *      required:
- *        - id
  *        - email
  *        - password
  *      properties:
@@ -22,6 +21,14 @@ const userController = require("../controller/user.controller.js");
  *        password:
  *          type: string
  *          description: The password your post
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *          description: The Created data date
+ *        updatedAt:
+ *          type: string
+ *          format: date-time
+ *          description: The Created data date
  */
 
 /**
@@ -30,6 +37,20 @@ const userController = require("../controller/user.controller.js");
  *      post:
  *        summary: Create a new user
  *        tags: [Users]
+ *        parameters:
+ *         - in: body
+ *           name: user
+ *           description: The user to create.
+ *           schema:
+ *            type: object
+ *            required:
+ *             - email
+ *             - password
+ *            properties:
+ *             email:
+ *              type: string
+ *             password:
+ *              type: string
  *        responses:
  *          "201":
  *            description: Retrieve all posts
@@ -47,6 +68,20 @@ router.post("/api/auth/register", userController.registerUser);
  *      post:
  *        summary: Login a user
  *        tags: [Users]
+ *        parameters:
+ *        - in: body
+ *          name: user
+ *          description: The user to login.
+ *          schema:
+ *           type: object
+ *           required:
+ *            - email
+ *            - password
+ *           properties:
+ *            email:
+ *             type: string
+ *            password:
+ *             type: string
  *        responses:
  *          "200":
  *            description: Retrieve all posts
